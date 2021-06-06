@@ -4,10 +4,13 @@
 
 package it.polito.tdp.PremierLeague;
 
+
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import it.polito.tdp.PremierLeague.model.Model;
+import it.polito.tdp.PremierLeague.model.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -44,17 +47,39 @@ public class FXMLController {
 
     @FXML
     void doCreaGrafo(ActionEvent event) {
-
+    	txtResult.clear();
+    	try {
+    		double soglia=Double.parseDouble(txtGoals.getText());
+    		model.creaGrafo(soglia);
+    		txtResult.setText("GRAFO CREATO!\n #VERTICI: "+model.getVertexSize()+"\n#ARCHI: "+model.getEdgeSize());
+    	}
+    	catch(NumberFormatException e) {
+    	txtResult.setText("Inserisci un numero valido");	
+    	return ;
+    	}
     }
 
     @FXML
     void doDreamTeam(ActionEvent event) {
-
+    	txtResult.clear();
+    	try {
+    		int giocatori=Integer.parseInt(txtK.getText());
+    		List<Player> dreamTeam=model.getDreamTeam(giocatori);
+    		txtResult.setText("DREAM TEAM: \n");
+    		for(Player p: dreamTeam) {
+    			txtResult.appendText(p.getName()+"\n");
+    		}
+    	}
+    	catch(NumberFormatException e) {
+    	txtResult.setText("Inserisci un numero valido");	
+    	return ;
+    	}
     }
 
     @FXML
     void doTopPlayer(ActionEvent event) {
-
+    	txtResult.clear();
+    	txtResult.setText(model.getBestPlayer());
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
